@@ -15,11 +15,12 @@ class ProgramViewModel : ViewModel(){
     val uiState: StateFlow<AppUiState> = _uiState.asStateFlow()
     val questions = QuestionBank().questions.shuffled()
 
+
     init{
         firstQuestion()
     }
 
-    fun firstQuestion() {
+    private fun firstQuestion() {
         val currentQuestion: Question = questions[0]
         updateState(currentQuestion, 0, 0)
     }
@@ -27,21 +28,23 @@ class ProgramViewModel : ViewModel(){
     fun nextQuestion() {
         if (_uiState.value.questionIndex + 1 < questions.size)
         {
-            var newPoint = checkCorrectAnswer(_uiState.value.currentAnswer)
+            val newPoint = checkCorrectAnswer(_uiState.value.currentAnswer)
             println(newPoint)
             val currentQuestionIndex: Int = _uiState.value.questionIndex + 1
             val currentQuestion: Question = questions[currentQuestionIndex]
+            _uiState.value.answeredQuestions[_uiState.value.currentQuestion] = _uiState.value.currentAnswer
             updateState(
                 currentQuestion = currentQuestion,
                 currentQuestionIndex = currentQuestionIndex,
-                newPoint = newPoint
+                newPoint = newPoint,
             )
+
         } else {
             _uiState.update{ currentState -> currentState.copy(isOver = true)}
         }
     }
 
-    fun checkCorrectAnswer(givenAnswer: Answer?) : Int{
+    private fun checkCorrectAnswer(givenAnswer: Answer?) : Int{
         if(givenAnswer is CorrectAnswer? || givenAnswer is CorrectAnswer){
             return 1
         }
@@ -53,8 +56,7 @@ class ProgramViewModel : ViewModel(){
         _uiState.update { currentState -> currentState.copy(
             currentQuestion = currentQuestion,
             score = _uiState.value.score + newPoint,
-            questionIndex = currentQuestionIndex,
-
+            questionIndex = currentQuestionIndex
         ) }
     }
 }

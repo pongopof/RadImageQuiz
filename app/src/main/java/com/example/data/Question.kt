@@ -5,5 +5,9 @@ class Question(image : RadImage, questionText: String, wrongAnswer1: String, wro
     val title: String = image?.description ?: "INCORRECT"
     val image: RadImage = image
     val text: String = questionText
-    val answers: MutableList<Answer> = mutableListOf(CorrectAnswer(image.description), WrongAnswer(wrongAnswer1), WrongAnswer(wrongAnswer2), WrongAnswer(wrongAnswer3))//first answer is correct
+    val answers: List<Answer> = mutableListOf(CorrectAnswer(image.description), WrongAnswer(wrongAnswer1), WrongAnswer(wrongAnswer2), WrongAnswer(wrongAnswer3)) //first answer is correct
+    val shuffledAnswers: List<Answer> = answers.shuffled()
+    init {
+
+    }
 }

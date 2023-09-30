@@ -8,6 +8,7 @@ data class AppUiState(
     val questionIndex: Int = 0,
     val score: Int = 0,
     var currentAnswer: Answer? = null,
-    val isOver: Boolean = false
+    val isOver: Boolean = false,
+    val answeredQuestions: MutableMap<Question?, Answer?> = mutableMapOf()
+)
 
-    )
